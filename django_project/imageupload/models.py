@@ -11,3 +11,6 @@ from django.utils import timezone
 class UploadImage(models.Model):
 	# upload = models.ForeignKey(Upload)
 	image = models.ImageField()
+
+	def __unicode__(self):
+		return self.image.name
