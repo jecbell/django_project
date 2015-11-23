@@ -10,6 +10,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth import (
 	authenticate,
 	login,
+	logout,
 )
 from django.contrib.auth.decorators import login_required
 
@@ -26,7 +27,11 @@ from imageupload.forms import (
 
 @login_required
 def index(request):
-	return HttpResponse("Temp index page - will be login.")
+	user = request.user
+
+	images = UploadImage.objects.filter(upload__user=user)
+
+	return render(request, 'imageupload/index.html', {'images': images})
 
 
 def user_login(request):
@@ -67,6 +72,7 @@ def handle_register(request):
 	if form.is_valid():
 		user = form.save()
 		user.set_password(user.password)
+		user.backend = 'django.contrib.auth.backends.ModelBackend' #hack - apologies!
 		user.save()
 
 		auth_user = authenticate(username=user.username, password=user.password)
@@ -77,6 +83,11 @@ def handle_register(request):
 	else:
 		print form.errors
 		return render(request, 'imageupload/login.html', {'register_form': form})
+
+def handle_logout(request):
+	logout(request)
+
+	return HttpResponseRedirect(reverse('index'))
 
 
 @login_required

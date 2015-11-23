@@ -10,6 +10,9 @@ class Upload(models.Model):
 	def __unicode__(self):
 		return self.user.username + " " + str(self.upload_date)
 
+	class Meta:
+		ordering = ['upload_date']
+
 
 class UploadImage(models.Model):
 	upload = models.ForeignKey(Upload)
