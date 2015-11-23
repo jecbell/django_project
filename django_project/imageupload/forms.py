@@ -1,8 +1,16 @@
 from django import forms
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
 
 from PIL import Image
 from cStringIO import StringIO
+
+class UserRegisterForm(forms.ModelForm):
+	password = forms.CharField(widget=forms.PasswordInput())
+
+	class Meta:
+		model = User
+		fields = ('username', 'email', 'password')
 
 
 class UploadImageForm(forms.Form):

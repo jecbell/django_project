@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+            <meta charset="utf-8">
+            <title>Image Upload - Login</title>
+
+            {% load staticfiles %}
+            {% load imageupload_filters %}
+            <link rel="stylesheet" href="{% static 'imageupload/bootstrap/css/bootstrap.css' %}">
+            <link rel="stylesheet" href="{% static 'imageupload/css/login.css' %}">
+            <!-- <link rel="stylesheet" href="{% static 'imageupload/bootstrap/css/bootstrap-theme.css' %}"> -->
+    </head>
+
+    <body>
+
+        <div class="container login-container">
+
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#login" aria-controls="login" role="tab" data-toggle="tab">Login</a></li>
+                <li role="presentation"><a href="#register" aria-controls="register" role="tab" data-toggle="tab">Register</a></li>
+            </ul>
+
+            <div class="tab-content panel">
+                <div role="tabpanel" class="tab-pane active" id='login'>
+                    <form id="user_form" method="post" action="{% url "login" %}"
+                            enctype="multipart/form-data" class="form-signin">
+
+                        {% csrf_token %}
+
+                        {{ error_msg }}
+                        <input type="hidden" name="auth_type" value="login">
+                        <p>
+                            <label for="username-login">Username</label>
+                            <input type="text" id="username-login" name="username" class="form-control"/>
+                        </p>
+                        <p>
+                            <label for="password-login">Password</label>
+                            <input type="password" id="password-login" name="password" class="form-control"/>
+                        </p>
+
+                        <input type="submit" name="submit" value="Login" />
+
+                    </form>
+                </div>
+
+                <div role="tabpanel" class="tab-pane" id='register'>
+                    <form id="user_form" method="post" action="{% url "login" %}"
+                            enctype="multipart/form-data" class="form-signin">
+
+                        {% csrf_token %}
+                        {{ register_form.non_field_errors }}
+
+                        <p>
+                            <label for="username-register">Username</label>
+                            {{ register_form.username|addclass:"form-control"}}
+                            {{ register_form.username.help_text }}
+                        </p>
+                        <p>
+                            <label for="email-register">Email Address</label>
+                            {{ register_form.email|addclass:"form-control"}}
+                        </p>
+                        <p>
+                            <label for="password-register">Password</label>
+                            {{ register_form.password|addclass:"form-control"}}
+                        </p>
+
+                        <input type="hidden" name="auth_type" value="register">
+                        <input type="submit" name="submit" value="Register" />
+                    </form>
+                </div> 
+            </div>
+
+        </div>
+
+
+        <script type="text/javascript" src="{% static 'imageupload/js/jquery-1.11.3.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'imageupload/bootstrap/js/bootstrap.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'imageupload/js/login.js' %}"></script>
+    </body>
+</html>
