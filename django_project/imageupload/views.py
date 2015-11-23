@@ -6,11 +6,18 @@ from django.http import (
 	Http404,
 )
 from django.core.urlresolvers import reverse
-from django.contrib.auth import authenticate, login
+
+from django.contrib.auth import (
+	authenticate,
+	login,
+)
 from django.contrib.auth.decorators import login_required
 
 
-from imageupload.models import UploadImage
+from imageupload.models import (
+	Upload,
+	UploadImage,
+)
 from imageupload.forms import (
 	UserRegisterForm,
 	UploadImageForm,
@@ -77,10 +84,13 @@ def upload(request):
 	if request.method == 'POST':
 		form = UploadImageForm(request.POST, request.FILES)
 		if form.is_valid():
-			newimage = UploadImage(image = request.FILES['image'])
-			newimage.save()
+			new_upload = Upload(user = request.user)
+			new_upload.save()
 
-			return HttpResponseRedirect(reverse('upload_result', kwargs={'ui_id': newimage.pk}))
+			new_image = UploadImage(upload = new_upload, image = request.FILES['image'])
+			new_image.save()
+
+			return HttpResponseRedirect(reverse('upload_result', kwargs={'ui_id': new_image.pk}))
 	else:
 		form = UploadImageForm()
 

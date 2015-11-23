@@ -90,3 +90,7 @@ MEDIA_URL = '/media/'
 
 
 LOGIN_URL = os.path.join(BASE_DIR, '/imageupload/login')
+
+AUTHENTICATION_BACKENDS = {
+    'django.contrib.auth.backends.ModelBackend',
+}
