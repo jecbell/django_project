@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from PIL import Image
 from cStringIO import StringIO
 
-class UserForm(forms.ModelForm):
+class UserRegisterForm(forms.ModelForm):
 	password = forms.CharField(widget=forms.PasswordInput())
 
 	class Meta:
